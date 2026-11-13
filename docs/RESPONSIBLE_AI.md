@@ -5,7 +5,9 @@ This document states what BrandLoom does with people's content, what it does not
 ## Current disclosure
 
 - **No AI model is used in the current prototype.** Every check is a fixed rule written in code and listed in [REVIEW_RULES.md](REVIEW_RULES.md).
-- **No external service receives draft text.** The prototype runs in the browser. It does not send drafts, sources or decisions to any server or database.
+- **Draft text goes to our own Supabase project only.** While you edit, the draft is sent to a Supabase edge function (rule-based tone check) and saved, together with dismissals and the activity log, in a Supabase demo database hosted by us. No draft text is sent to any third-party AI or analytics service.
+- **The tone check is not AI.** It is a set of fixed patterns. The interface labels it "Rule-based tone check".
+- **Do not paste confidential text into the demo.** The demo database has open anonymous access and no sign-in.
 - **The demo data is fictional.** Northwind Outdoor, its guidelines and facts are invented for demonstration.
 - **Research and drafting tools.** The challenge plan records that Google Gemini was used for research, and ChatGPT and Claude were used for planning and drafting. All content was reviewed by the team.
 
@@ -48,8 +50,8 @@ Role-based permissions and row-level security will ensure users see only the wor
 
 ## Data handling
 
-- The prototype keeps draft text and decisions in browser memory only. Refreshing the page clears them.
-- There is no sign-in yet. Roles are a demo switch in the header, not verified identities. Accounts are needed before real content is used.
+- The prototype saves draft text, dismissals and the activity log in a Supabase demo database, one draft per browser (ID kept in local storage). Access policies are open to anonymous users because there is no sign-in; the activity log and dismissals are insert-only.
+- There is no sign-up or sign-in by design. Roles are a demo switch in the header, not verified identities. A production version would need accounts before real content is used.
 - Production plans call for encrypted storage and transport, no use of customer content for model training, and deletion on request.
 
 ## Accessibility

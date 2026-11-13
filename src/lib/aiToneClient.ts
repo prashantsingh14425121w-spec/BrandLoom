@@ -51,7 +51,7 @@ export async function fetchAiToneFindings(text: string, audience: Audience): Pro
         start: start >= 0 ? start : 0,
         end,
         matched: item.matched,
-        reason: item.reason,
+        reason: item.reason.replace(/\s*\(Audience:[^)]*Verified: true\)\s*$/, ''),
         sourceId: 'G-03',
         quote: 'Avoid filler intensifiers, exaggerated adjectives and hedging language. Prefer specific, confident wording that tells the reader what is true.',
         fix: item.fix,

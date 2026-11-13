@@ -2,7 +2,7 @@
 
 ## Current prototype
 
-The prototype is a single-page web app built with Vite, React 18, TypeScript and Tailwind CSS. Everything runs in the browser. Drafts, dismissals and the activity log are held in memory for the session, and nothing is stored in a database. Icons come from lucide-react. There is no AI call and no sign-in yet.
+The prototype is a single-page web app built with Vite, React 18, TypeScript and Tailwind CSS. Review rules for terminology, claims and facts run in the browser. Drafts, dismissals and the activity log are saved to a Supabase (PostgreSQL) demo database with row-level security enabled, using one draft per browser. A Supabase edge function, `ai-tone-check`, runs a rule-based tone check (regular expressions with a second matching pass); it is not an AI model. Icons come from lucide-react. There is no AI model call, and no sign-up or sign-in by design.
 
 ### Layers
 
@@ -44,16 +44,16 @@ The plan in the challenge document describes the target system. The mapping from
 | Concern | Prototype | Production (planned) |
 | --- | --- | --- |
 | Frontend | Vite + React | Next.js (React) + TypeScript + Tailwind, as in the plan |
-| Backend | None | Python FastAPI, running the review pipeline and verifier |
-| Data | In-memory state for the session | PostgreSQL with pgvector on Supabase, with row-level security by role and confidentiality tier |
-| Auth | Role switch in the header | Supabase Auth with role-based access control |
-| AI analysis | None | Claude API (LLM) with structured JSON output; embedding model for retrieval |
+| Backend | Supabase edge function (`ai-tone-check`, Deno) | Python FastAPI, running the review pipeline and verifier |
+| Data | Supabase PostgreSQL: drafts, dismissals, activity log (RLS on; open anon policies for the demo) | PostgreSQL with pgvector on Supabase, with row-level security by role and confidentiality tier |
+| Auth | None by design. Role switch in the header | Supabase Auth with role-based access control |
+| AI analysis | None (the tone check is rule-based) | Claude API (LLM) with structured JSON output; embedding model for retrieval |
 | Rule checks | JavaScript rules in the browser | Python rules: regex / term lists, WCAG contrast calculation (Pillow, colorspace maths), alt-text and heading checks |
 | Parsing | None | pypdf / python-docx, OCR (Tesseract) for images |
 | Retrieval | Every rule reads the whole source set | Guideline and fact chunks embedded and retrieved per content segment |
 | Verifier | Code checks citation and span | Code checks, plus a second model call that confirms the source supports the finding |
-| Audit log | In-memory activity list | Append-only audit table |
-| Hosting | Local dev server | Vercel (frontend) + Render or Railway (API) |
+| Audit log | Insert-only `activity_log` table | Append-only audit table |
+| Hosting | Vercel (frontend), Supabase (database and edge function) | Vercel (frontend) + Render or Railway (API) |
 | Quality | Manual testing | pytest, small labelled evaluation set of content with known issues |
 
 ### Hardest technical challenge: trustworthy, grounded findings

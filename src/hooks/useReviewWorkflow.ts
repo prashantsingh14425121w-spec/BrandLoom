@@ -15,7 +15,22 @@ import type {
 } from '@/types';
 
 const timeNow = () => new Date().toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
-const DRAFT_ID = '00000000-0000-0000-0000-000000000001';
+const DRAFT_STORAGE_KEY = 'brandloom-draft-id';
+
+// Each browser gets its own demo draft, so several people testing at once do not overwrite each other.
+function getDraftId(): string {
+  try {
+    const existing = window.localStorage.getItem(DRAFT_STORAGE_KEY);
+    if (existing) return existing;
+    const created = crypto.randomUUID();
+    window.localStorage.setItem(DRAFT_STORAGE_KEY, created);
+    return created;
+  } catch {
+    return crypto.randomUUID();
+  }
+}
+
+const DRAFT_ID = getDraftId();
 
 interface DraftRow {
   id: string;

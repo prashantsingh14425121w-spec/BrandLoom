@@ -35,7 +35,7 @@ const HOW_IT_WORKS = [
   'Each finding shows the exact passage it relies on. A finding without a matching passage is never shown.',
   'Fixes are suggestions. You accept, edit or dismiss each one, and a dismissal needs a reason.',
   'Claims and expired facts are never corrected automatically. A person makes that call.',
-  'This prototype runs in your browser. Draft text is not sent to any external AI or service.',
+  'No AI model is used. Rules run in your browser, and the tone check runs in our own Supabase edge function. While you edit, your draft text is sent to that function and saved to our demo database. It is not sent to any third-party AI service. Demo data is fictional, so do not paste confidential text.',
 ];
 
 export default function SourcesView() {

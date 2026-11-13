@@ -42,6 +42,7 @@ npm run lint       # ESLint
 | [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | How the prototype is built, how a review runs, and the planned production stack |
 | [docs/REVIEW_RULES.md](docs/REVIEW_RULES.md) | Every rule the review engine applies, the source it cites, and what happens when it fires |
 | [docs/RESPONSIBLE_AI.md](docs/RESPONSIBLE_AI.md) | Human oversight, confidentiality, AI disclosure, and data handling |
+| [docs/PLAN_VS_DELIVERED.md](docs/PLAN_VS_DELIVERED.md) | How the Round 2 build compares with the Round 1 plan, including stack changes |
 | [docs/ROADMAP.md](docs/ROADMAP.md) | What is built, what is planned for Rounds 2 and 3, and known limitations |
 
 ## Project structure
@@ -60,8 +61,15 @@ public/robots.txt          Search engine crawl policy
 
 ## Search visibility
 
-The page includes a descriptive title, meta description, Open Graph and Twitter card tags, and schema.org `SoftwareApplication` markup in `index.html`. A `<noscript>` summary gives crawlers a readable description. Each tab sets its own title, description, canonical URL and social tags when it opens. `public/sitemap.xml` and the `Sitemap` line in `public/robots.txt` contain the placeholder `https://your-domain.com`; replace it with the production domain before submitting the site to search engines.
+The page includes a descriptive title, meta description, Open Graph and Twitter card tags, and schema.org `SoftwareApplication` markup in `index.html`. A `<noscript>` summary gives crawlers a readable description. Each tab sets its own title, description, canonical URL and social tags when it opens. `public/sitemap.xml` and the `Sitemap` line in `public/robots.txt` point to the deployed domain, `https://brand-loom-eight.vercel.app`.
 
 ## Status
 
-Prototype for Round 2 of the challenge. Data lives in the browser session only and is not stored in a database, so a refresh starts the demo draft again. Review checks are rule-based and run in the browser. AI analysis and user sign-in are not built yet; the role switch in the header is a demo control. See [docs/ROADMAP.md](docs/ROADMAP.md).
+Prototype for Round 2 of the challenge, deployed on Vercel at https://brand-loom-eight.vercel.app.
+
+- **Storage.** Drafts, dismissals and the activity log are saved to a Supabase (PostgreSQL) demo database. Each browser gets its own demo draft, identified by an ID kept in local storage, so a refresh keeps your progress.
+- **Checks.** Terminology, claims and facts rules run in the browser. The tone check runs in a Supabase edge function (`ai-tone-check`). It is **rule-based (regular expressions), not an AI model**.
+- **No AI model is used yet.** AI analysis and confidentiality tiers are planned for Round 3. There is no sign-up or sign-in by design: the role switch in the header is a demo control so judges can try every role without creating an account.
+- **Data sent.** Draft text is sent to our own Supabase project (database and edge function). It is not sent to any third-party AI service. Demo data is fictional.
+
+See [docs/PLAN_VS_DELIVERED.md](docs/PLAN_VS_DELIVERED.md) for how the build compares with the Round 1 plan, and [docs/ROADMAP.md](docs/ROADMAP.md) for what comes next.

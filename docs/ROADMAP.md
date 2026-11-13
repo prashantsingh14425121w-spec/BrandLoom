@@ -5,7 +5,7 @@
 - Defined problem, users, workflow and architecture in the plan document
 - Interview and survey evidence gathered from marketers, social media managers, agency staff and student-club content teams
 - Fictional demo brand (Northwind Outdoor) with synthetic guidelines and facts
-- Repository created with the technology stack chosen (Next.js + FastAPI + PostgreSQL/pgvector on Supabase)
+- Repository created. The Round 1 plan named Next.js + FastAPI + PostgreSQL/pgvector; the Round 2 build uses Vite + React + Supabase (see [PLAN_VS_DELIVERED.md](PLAN_VS_DELIVERED.md))
 - AI use disclosure: Google Gemini for research, ChatGPT and Claude for planning and drafting
 
 ## Built (Round 2 prototype)
@@ -17,7 +17,8 @@
 - Dismissals and accepted fixes create a new revision automatically
 - Approval routing (Manager or Reviewer), approve, request changes and reject with notes
 - Roles: Creator, Manager, Reviewer and Admin (demo role switching)
-- Activity log and revision numbers
+- Activity log and revision numbers, saved to a Supabase demo database (one draft per browser)
+- Rule-based tone check in a Supabase edge function (not an AI model)
 - Linkable tabs (URL hash) with a title, description and canonical URL for each view
 - Read-only source library with owners and expiry dates
 - Fictional demo brand and sample copy
@@ -28,7 +29,6 @@
 - AI analysis for tone, messaging and claims, returning structured JSON with citations
 - Verifier that confirms each AI finding's source actually supports it
 - Intent-preserving rewrites: extract the creator's message, call to action and audience, then check that each suggested fix keeps them
-- User accounts with Creator, Manager, Reviewer and Admin roles
 - Guideline-ambiguity insights: passages that cause repeated or disputed findings
 - Image and document accessibility checks: logo and palette conformity, text contrast, missing alt text, heading structure
 - Confidentiality tiers with redaction before any external call
@@ -49,7 +49,8 @@
 
 - Checks match defined wording. They cannot judge a whole piece's tone the way a person can.
 - Only one fixed phrasing of each fact is checked.
-- Drafts and decisions are lost on refresh, because nothing is stored outside the browser session.
+- Demo database access is open to anonymous users and tied to one draft per browser, so it is not suitable for confidential content.
+- The tone check is rule-based. It has no AI model and its second pass uses the same patterns as the first.
 - The source library cannot be edited in the app yet.
-- The demo uses role switching, not real sign-in.
+- There is no sign-up or sign-in by design. Roles are a demo switch, not verified identities.
 - Image analysis covers only a limited set of checks in the event timeframe.

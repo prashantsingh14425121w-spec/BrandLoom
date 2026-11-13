@@ -35,7 +35,7 @@ export default function ReviewView({ workflow }: { workflow: ReviewWorkflow }) {
               {aiLoading && (
                 <p className="mt-1 flex items-center gap-1.5 text-xs text-sky-600">
                   <span className="inline-block h-3 w-3 animate-spin rounded-full border-2 border-sky-300 border-t-sky-600" />
-                  Running AI tone analysis…
+                  Running tone check…
                 </p>
               )}
             </div>
