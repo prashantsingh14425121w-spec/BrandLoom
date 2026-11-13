@@ -1,0 +1,5 @@
+project_id = "brandloom"
+
+[functions.ai-tone-check]
+verify_jwt = false
+entrypoint = "./functions/ai-tone-check/index.ts"
